@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- This web app is based on sample code provided by my university.
+		 It's an assignment and, therefore, neither nice nor beautiful. Also,
+		 the legal implications are probably a mess. -->
+<html>
+	<head>
+		<script>
+			var request = new XMLHttpRequest();
+
+			function send()
+			{
+				cityW = "Hannover";
+				proxy = "localhost:8080/"; // Address of ProxyService.jar
+				request.open("GET", "http://"+proxy+"api.openweathermap.org/data/2.5/weather?q="+ cityW +",de", true);
+				request.onreadystatechange = handler;
+				request.send();
+			}
+
+			function handler()
+			{
+				if (this.readyState == this.DONE)
+				{
+					if (this.status == 200)
+					{ // HTTP OK
+						var json = JSON.parse(this.responseText);
+						var city = json["name"];
+						document.getElementById("city").innerHTML = city;
+						document.getElementById("object").innerHTML = this.responseText;
+					}
+				}
+			}
+		</script>
+	</head>
+
+	<body>
+		<h1 id="city">Your City</h1>
+			<button onclick="send();">Send</button>
+		<p id="object"></p>
+	</body>
+</html>
